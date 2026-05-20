@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Guido Boabaid – Psiquiatria de Precisão</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0d1f3c;
+    --navy-mid:   #132848;
+    --navy-light: #1a3560;
+    --teal:       #1a7f8a;
+    --green:      #25d366;
+    --green-dark: #1aab52;
+    --accent:     #e8c96a;
+    --white:      #ffffff;
+    --off-white:  #f4f7fb;
+    --text-light: #cdd8ec;
+    --text-muted: #8a9bbf;
+    --radius:     14px;
+    --shadow:     0 8px 40px rgba(0,0,0,.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER / NAV ─── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(13,31,60,.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--navy-light);
+    border: 2px solid var(--teal);
+    display: grid; place-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px; font-weight: 700; color: var(--white);
+    flex-shrink: 0;
+  }
+  .logo-text { color: var(--white); }
+  .logo-text strong { display: block; font-size: 15px; font-weight: 600; letter-spacing: .3px; }
+  .logo-text span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); }
+
+  nav { display: flex; align-items: center; gap: 32px; }
+  nav a {
+    color: var(--text-light); text-decoration: none;
+    font-size: 13.5px; font-weight: 500; letter-spacing: .3px;
+    transition: color .2s;
+  }
+  nav a:hover { color: var(--white); }
+
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green); color: var(--white);
+    padding: 9px 20px; border-radius: 30px;
+    font-size: 13.5px; font-weight: 600; text-decoration: none;
+    transition: background .2s, transform .15s;
+    white-space: nowrap;
+  }
+  .btn-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-cta svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #0f2a50 100%);
+    padding: 110px 5% 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(26,127,138,.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(26,127,138,.25);
+    border: 1px solid rgba(26,127,138,.5);
+    color: #6ee7f0;
+    font-size: 11.5px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 30px;
+    margin-bottom: 24px;
+  }
+
+  .hero-name {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 900; color: var(--white);
+    line-height: 1.1; margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-size: 14px; color: var(--teal);
+    letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 28px;
+  }
+
+  .hero-bio {
+    font-size: 15px; line-height: 1.75;
+    color: var(--text-light);
+    background: rgba(255,255,255,.05);
+    border-left: 3px solid var(--teal);
+    padding: 18px 22px; border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 36px;
+  }
+
+  .hero-cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green); color: var(--white);
+    padding: 14px 28px; border-radius: 30px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    box-shadow: 0 6px 24px rgba(37,211,102,.35);
+    transition: all .2s;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+  .btn-primary svg { width: 20px; height: 20px; fill: currentColor; }
+
+  .hero-right {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 20px;
+  }
+
+  .hero-photo-wrap {
+    position: relative; width: 100%; max-width: 400px;
+  }
+
+  .hero-photo {
+    width: 100%; aspect-ratio: 3/4;
+    border-radius: 20px;
+    background: linear-gradient(160deg, var(--navy-light), var(--teal));
+    display: grid; place-items: center;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 80px;
+  }
+
+  .stats-grid {
+    display: flex; flex-direction: column; gap: 14px;
+    position: absolute; right: -30px; top: 40px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    text-align: center; color: var(--white);
+    min-width: 140px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
+  }
+  .stat-card .num {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--accent); display: block;
+  }
+  .stat-card .lbl { font-size: 11.5px; color: var(--text-light); }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 90px 5%; }
+  .section-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700; line-height: 1.2;
+    color: var(--navy); margin-bottom: 12px;
+  }
+  .section-title.light { color: var(--white); }
+  .section-sub {
+    font-size: 16px; color: #5a6f93; max-width: 100%; margin: 0 auto; white-space: nowrap;
+  }
+  .section-sub.light { color: var(--text-light); }
+
+  /* ─── CREDENTIALS ─── */
+  #credentials {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .credentials-inner {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+    padding: 50px 60px;
+  }
+
+  .cred-header { text-align: center; margin-bottom: 40px; }
+
+  .cred-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px 50px; margin-bottom: 50px;
+  }
+
+  .cred-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14.5px; color: var(--text-light);
+    line-height: 1.5;
+  }
+  .cred-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(26,127,138,.3);
+    border: 1.5px solid var(--teal);
+    display: grid; place-items: center;
+    flex-shrink: 0; margin-top: 1px;
+    color: var(--teal); font-size: 11px;
+  }
+
+  .logos-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px; flex-wrap: wrap;
+    padding-top: 36px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+
+  .logo-pill {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    padding: 12px 22px;
+    font-size: 13px; font-weight: 600; color: var(--text-light);
+    letter-spacing: .5px;
+  }
+
+  /* ─── PRESS ─── */
+  #press { background: var(--off-white); }
+
+  .press-header { text-align: center; margin-bottom: 50px; }
+
+  .press-logos {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; align-items: center;
+    gap: 24px;
+  }
+
+  .press-badge {
+    background: var(--white);
+    border: 1px solid #dde5f0;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-size: 14px; font-weight: 700;
+    color: var(--navy); letter-spacing: .5px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .press-badge:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+  .press-badge.red { color: #e00; }
+  .press-badge.dark { background: #111; color: #fff; border-color: #111; }
+
+  /* ─── AREAS ─── */
+  #areas { background: var(--white); }
+
+  .areas-header { text-align: center; margin-bottom: 50px; }
+
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+  }
+
+  .area-card {
+    border: 1px solid #dde5f0;
+    border-radius: var(--radius);
+    padding: 28px;
+    background: var(--white);
+    transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .area-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--teal), #6ee7f0);
+    opacity: 0; transition: opacity .25s;
+  }
+  .area-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.1); transform: translateY(-4px); }
+  .area-card:hover::before { opacity: 1; }
+
+  .area-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: rgba(26,127,138,.1);
+    display: grid; place-items: center;
+    margin-bottom: 16px; font-size: 20px;
+  }
+  .area-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem; font-weight: 600;
+    margin-bottom: 10px; color: var(--navy);
+  }
+  .area-card p { font-size: 14px; color: #5a6f93; line-height: 1.65; }
+
+  .area-card.wide { grid-column: 1 / -1; }
+
+  /* ─── TELEMEDICINA ─── */
+  #telemedicina {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: var(--white);
+  }
+
+  .tele-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 70px;
+  }
+
+  .tele-left h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+    font-weight: 700; margin-bottom: 16px;
+  }
+  .tele-left p { font-size: 15px; line-height: 1.75; color: var(--text-light); margin-bottom: 20px; }
+
+  .tele-bullets { list-style: none; margin-bottom: 36px; display: flex; flex-direction: column; gap: 16px; }
+  .tele-bullets li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 14.5px; color: var(--text-light);
+  }
+  .tele-bullets li strong { color: var(--white); display: block; margin-bottom: 2px; font-size: 15px; }
+  .bullet-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(26,127,138,.25);
+    border: 1px solid rgba(26,127,138,.4);
+    display: grid; place-items: center; flex-shrink: 0;
+    font-size: 16px;
+  }
+
+  .tele-right { display: grid; place-items: center; }
+
+  .video-thumb {
+    width: 100%; max-width: 400px;
+    aspect-ratio: 3/4;
+    border-radius: 20px;
+    background: #162f54;
+    display: grid; place-items: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    position: relative; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .video-thumb img.video-cover {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    border-radius: 20px;
+  }
+
+  .play-btn {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    border: 2px solid rgba(255,255,255,.4);
+    display: grid; place-items: center;
+    backdrop-filter: blur(8px);
+    transition: transform .2s, background .2s;
+    cursor: pointer;
+  }
+  .play-btn:hover { transform: scale(1.08); background: rgba(255,255,255,.25); }
+  .play-btn svg { width: 22px; height: 22px; fill: var(--white); margin-left: 3px; }
+
+  .video-label {
+    position: absolute; bottom: 20px; left: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--accent); line-height: 1.2;
+  }
+
+  /* ─── BOOK ─── */
+  #livro { background: var(--off-white); }
+
+  .livro-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 70px;
+  }
+
+  .book-cover {
+    background: linear-gradient(145deg, #1a3560, var(--teal));
+    border-radius: 16px;
+    aspect-ratio: 3/4;
+    max-width: 320px;
+    display: grid; place-items: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    font-size: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .book-cover::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="30" fill="rgba(255,255,255,.04)"/><circle cx="80" cy="80" r="40" fill="rgba(255,255,255,.03)"/></svg>') center/cover;
+  }
+
+  .book-inner-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 30px; text-align: center;
+    z-index: 2;
+  }
+  .book-inner-text .book-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem; font-weight: 900;
+    color: var(--white); line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .book-inner-text .book-author {
+    font-size: 12px; color: rgba(255,255,255,.7);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  .livro-right h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700; color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .livro-right .book-tag {
+    font-size: 12px; color: var(--teal); font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 20px; display: block;
+  }
+  .livro-right p {
+    font-size: 15px; color: #5a6f93; line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .livro-right p strong { color: var(--navy); }
+
+  .book-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .btn-amazon {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #ff9900; color: var(--navy);
+    padding: 12px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-amazon:hover { background: #e68800; transform: translateY(-2px); }
+
+  .btn-spotify {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #1db954; color: var(--white);
+    padding: 12px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-spotify:hover { background: #17a349; transform: translateY(-2px); }
+
+  .btn-buzz {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--navy); color: var(--white);
+    padding: 12px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-buzz:hover { background: var(--navy-light); transform: translateY(-2px); }
+
+  /* ─── TESTIMONIALS ─── */
+  #depoimentos { background: var(--navy); }
+
+  .depo-header { text-align: center; margin-bottom: 50px; }
+
+  .depo-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 24px;
+  }
+
+  .depo-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius);
+    padding: 28px;
+    color: var(--white);
+    display: flex; flex-direction: column;
+    transition: transform .2s;
+  }
+  .depo-card:hover { transform: translateY(-4px); }
+
+  .depo-stars { color: var(--accent); font-size: 14px; margin-bottom: 14px; }
+  .depo-text {
+    font-size: 14px; line-height: 1.7;
+    color: var(--text-light); flex: 1;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .depo-author strong { display: block; font-size: 14px; color: var(--white); margin-bottom: 2px; }
+  .depo-author span { font-size: 12px; color: var(--teal); }
+
+  /* ─── CTA FINAL ─── */
+  #contato {
+    background: linear-gradient(135deg, #0d1f3c 0%, #1a3560 50%, #0f2a50 100%);
+    text-align: center;
+    color: var(--white);
+    padding: 100px 5%;
+    position: relative; overflow: hidden;
+  }
+  #contato::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(26,127,138,.2) 0%, transparent 60%);
+  }
+  #contato > * { position: relative; z-index: 2; }
+
+  .contato-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900; margin-bottom: 14px;
+  }
+  .contato-sub { font-size: 17px; color: var(--text-light); margin-bottom: 50px; }
+
+  .contact-cards {
+    display: flex; justify-content: center; gap: 24px;
+    flex-wrap: wrap; margin-bottom: 50px;
+  }
+  .contact-card {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--radius);
+    padding: 24px 30px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    min-width: 180px;
+  }
+  .contact-card .icon { font-size: 24px; }
+  .contact-card .clbl { font-size: 11px; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; }
+  .contact-card .cval { font-size: 15px; font-weight: 600; color: var(--white); }
+
+  .cta-big {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--green);
+    color: var(--white); padding: 18px 40px;
+    border-radius: 50px; font-size: 18px; font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(37,211,102,.4);
+    transition: all .2s;
+  }
+  .cta-big:hover { background: var(--green-dark); transform: translateY(-3px); }
+  .cta-big svg { width: 24px; height: 24px; fill: currentColor; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #070f1e;
+    padding: 50px 5% 30px;
+    color: var(--text-muted);
+  }
+
+  .footer-inner {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 50px; margin-bottom: 40px;
+  }
+
+  .footer-brand p { font-size: 13.5px; line-height: 1.7; margin: 14px 0 8px; }
+  .footer-crm { font-size: 12px; color: #5a6f93; }
+
+  footer h4 { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); margin-bottom: 16px; }
+  footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  footer ul a { color: var(--text-muted); text-decoration: none; font-size: 13.5px; transition: color .2s; }
+  footer ul a:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding-top: 24px; text-align: center;
+    font-size: 12.5px; color: #3d4f6e;
+  }
+
+  /* ─── WHATSAPP FLOAT ─── */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 998;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--green); color: var(--white);
+    display: grid; place-items: center;
+    box-shadow: 0 6px 24px rgba(37,211,102,.5);
+    text-decoration: none;
+    transition: transform .2s;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  .wa-float:hover { transform: scale(1.1); }
+  .wa-float svg { width: 28px; height: 28px; fill: currentColor; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 6px 24px rgba(37,211,102,.5); }
+    50% { box-shadow: 0 6px 40px rgba(37,211,102,.8), 0 0 0 8px rgba(37,211,102,.15); }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { opacity: 0; animation: fadeUp .7s ease forwards; }
+  .d1 { animation-delay: .1s; }
+  .d2 { animation-delay: .22s; }
+  .d3 { animation-delay: .34s; }
+  .d4 { animation-delay: .46s; }
+  .d5 { animation-delay: .58s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; }
+    .stats-grid { position: static; flex-direction: row; flex-wrap: wrap; }
+    .tele-inner, .livro-inner { grid-template-columns: 1fr; }
+    .depo-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 30px; }
+    nav { display: none; }
+    .cred-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/5548998510053" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- HEADER -->
+<header>
+  <a class="logo-wrap" href="#"><img src="logo.png" alt="Dr. Guido Boabaid" style="height:42px;width:auto;"></a>
+  <nav>
+    <a href="#telemedicina">Telemedicina</a>
+    <a href="#areas">Áreas de Atuação</a>
+    <a href="#livro">Livro</a>
+    <a href="#depoimentos">Depoimentos</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <a class="btn-cta" href="https://wa.me/5548998510053" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Agende sua consulta
+  </a>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge fade-up d1">Médico Psiquiatra &amp; Psicoterapeuta</div>
+    <h1 class="hero-name fade-up d2">Dr. Guido<br>Boabaid May</h1>
+    <p class="hero-title fade-up d3">Médico Psiquiatra · CEO e Fundador do GnTech</p>
+    <div class="hero-bio fade-up d4">
+      Sou Dr. Guido Boabaid, médico psiquiatra e psicoterapeuta com mais de 30 anos de experiência. Atendo presencialmente em Florianópolis e São Paulo e realizo teleconsultas para pacientes de todo o Brasil e exterior. Membro do Corpo Clínico do Hospital Israelita Albert Einstein.
+    </div>
+    <div class="hero-cta-row fade-up d5">
+      <a class="btn-primary" href="https://wa.me/5548998510053" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agende sua consulta
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <img src="foto-hero.png" alt="Dr. Guido Boabaid" class="hero-photo" style="object-fit:cover;width:100%;height:100%;">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="num">+32</span>
+          <span class="lbl">anos de experiência</span>
+        </div>
+        <div class="stat-card">
+          <span class="num">+115 mil</span>
+          <span class="lbl">consultas realizadas</span>
+        </div>
+        <div class="stat-card">
+          <span class="num">+1.250</span>
+          <span class="lbl">tratamentos GnTech</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section id="credentials">
+  <div class="credentials-inner">
+    <div class="cred-header">
+      <div class="section-tag">Formação &amp; Conquistas</div>
+      <h2 class="section-title light">Referência nacional em Psiquiatria de Precisão</h2>
+    </div>
+    <div class="cred-grid">
+      <div class="cred-item"><div class="cred-check">✓</div><span>Mais de 110 mil atendimentos realizados</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Professor convidado da Faculdade de Medicina da Unisul</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Precursor do uso do teste farmacogenético para transtornos mentais</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Autor do livro: "Onde foi parar minha alegria?"</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Formado em Medicina pela UFSC</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Médico Membro do Corpo Clínico do Hospital Albert Einstein</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Especialista em Psiquiatria pela UFRGS</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>Fundador da VIVA, Clínica de Telemedicina</span></div>
+      <div class="cred-item"><div class="cred-check">✓</div><span>CEO e Fundador da GnTech</span></div>
+    </div>
+    <div class="logos-row">
+      <img src="cred-viva.png"          alt="VIVA"           style="height:44px;width:auto;">
+      <img src="cred-gntech.png"        alt="GnTech"         style="height:44px;width:auto;">
+      <img src="cred-unisul.png"        alt="Unisul"         style="height:44px;width:auto;">
+      <img src="cred-einstein.png"      alt="Albert Einstein" style="height:44px;width:auto;">
+      <img src="cred-menosansiedade.png" alt="Menos Ansiedade" style="height:44px;width:auto;">
+    </div>
+  </div>
+</section>
+
+<!-- PRESS -->
+<section id="press">
+  <div class="press-header">
+    <div class="section-tag">Reconhecimento</div>
+    <h2 class="section-title">Na Imprensa</h2>
+  </div>
+  <div class="press-logos">
+    <img src="imprensa-globonews.png"      alt="GloboNews"        class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-forbes.png"         alt="Forbes"           class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-claudia.png"        alt="Claudia"          class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-folha.png"          alt="Folha de S.Paulo" class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-nsctotal.png"       alt="NSC Total"        class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-superinteressante.png" alt="Super Interessante" class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-estadao.png"        alt="Estadão"          class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+    <img src="imprensa-globonews2.png"     alt="GloboNews"        class="press-badge" style="height:52px;width:auto;padding:0;background:none;border:none;box-shadow:none;">
+  </div>
+</section>
+
+<!-- AREAS -->
+<section id="areas">
+  <div class="areas-header">
+    <div class="section-tag">Especialidades</div>
+    <h2 class="section-title">Áreas de Atuação</h2>
+    <p class="section-sub">Atendimento especializado em diversas áreas da psiquiatria com abordagem de precisão</p>
+  </div>
+  <div class="areas-grid">
+    <div class="area-card">
+      <div class="area-icon">⚖️</div>
+      <h3>Transtornos de Humor</h3>
+      <p>Especialização em depressão, transtorno bipolar e outros transtornos do humor com tratamento baseado em evidências.</p>
+    </div>
+    <div class="area-card">
+      <div class="area-icon">💙</div>
+      <h3>Transtornos de Ansiedade</h3>
+      <p>Tratamento para ansiedade generalizada, síndrome do pânico, fobias e TOC com abordagem personalizada.</p>
+    </div>
+    <div class="area-card">
+      <div class="area-icon">🔬</div>
+      <h3>Psiquiatria de Precisão</h3>
+      <p>Abordagem individualizada que considera aspectos biológicos, psicológicos e sociais de cada paciente.</p>
+    </div>
+    <div class="area-card">
+      <div class="area-icon">📋</div>
+      <h3>Avaliação Diagnóstica</h3>
+      <p>Avaliação detalhada e precisa para diagnóstico diferencial e planejamento terapêutico personalizado.</p>
+    </div>
+    <div class="area-card wide">
+      <div class="area-icon">🧬</div>
+      <h3>Farmacogenética</h3>
+      <p>A Farmacogenética ocupa um papel central nesse processo, pois orienta escolhas terapêuticas mais seguras e eficientes para cada paciente. Fui um dos precursores no uso do Teste Farmacogenético no Brasil e utilizo essa tecnologia na minha prática clínica diária, associando ciência, escuta, acessibilidade e acompanhamento contínuo. Sou fundador e CEO da GnTech, empresa de biotecnologia líder e pioneira no Brasil e na América Latina.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TELEMEDICINA -->
+<section id="telemedicina">
+  <div class="tele-inner">
+    <div class="tele-left">
+      <div class="section-tag">Psiquiatria Digital</div>
+      <h2>Psiquiatria de Precisão<br>via Telemedicina</h2>
+      <p>Atendimento através do seu celular ou computador! A teleconsulta permite buscar acompanhamento para a saúde mental de forma prática, segura e acessível, sem necessidade de deslocamento.</p>
+      <p>O atendimento é realizado pelo Dr. Guido ou pelos psiquiatras da sua equipe, com orientação clínica personalizada e baseada nas necessidades específicas de cada paciente.</p>
+      <ul class="tele-bullets">
+        <li>
+          <div class="bullet-icon">📹</div>
+          <div><strong>Consultas por vídeo</strong>Atendimento personalizado via plataforma segura</div>
+        </li>
+        <li>
+          <div class="bullet-icon">📅</div>
+          <div><strong>Flexibilidade de horários</strong>Agende no horário que melhor se adapta à sua rotina</div>
+        </li>
+        <li>
+          <div class="bullet-icon">💙</div>
+          <div><strong>Acompanhamento contínuo</strong>Suporte regular para seu tratamento</div>
+        </li>
+      </ul>
+      <a class="btn-primary" href="https://wa.me/5548998510053" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agende sua consulta
+      </a>
+    </div>
+    <div class="tele-right">
+      <div class="video-thumb"><img src="video-capa.png" alt="Medicina de Precisão" class="video-cover">
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-label">medicina<br>de precisão</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVRO -->
+<section id="livro">
+  <div class="livro-inner">
+    <div style="display:grid;place-items:center;">
+      <div class="book-cover">
+        <div class="book-inner-text">
+          <div class="book-title">Onde foi parar minha alegria?</div>
+          <div class="book-author">Guido Boabaid May</div>
+        </div>
+      </div>
+    </div>
+    <div class="livro-right">
+      <span class="book-tag">📖 Novo Livro</span>
+      <h2>Onde foi parar minha alegria?</h2>
+      <p><strong>Existe algo mais poderoso e inspirador do que reencontrar a sua própria essência?</strong></p>
+      <p>Conheça a história de Ana Maria, uma linda jovem de Florianópolis que inicia uma jornada para reencontrar a si mesma — uma trajetória impulsionada pelo tratamento contra a depressão que realizou no auge da sua juventude.</p>
+      <p>Esta é uma história realista e mágica ao mesmo tempo, em que a felicidade é construída gradativamente, "de dentro para fora", de forma legítima e sustentável, que nos ajuda a refletir sobre quem somos, onde estamos e para onde queremos ir.</p>
+      <p>Esta nova edição inclui QR Codes que levam direto à trilha sonora do livro — ouça a história ganhar vida!</p>
+      <div class="book-ctas">
+        <a class="btn-amazon" href="#" target="_blank"><img src="icon-amazon.png" alt="Amazon" style="height:20px;width:20px;object-fit:contain;"> Disponível na Amazon</a>
+        <a class="btn-spotify" href="#" target="_blank"><img src="icon-spotify.png" alt="Spotify" style="height:20px;width:20px;object-fit:contain;"> Ouça agora!</a>
+        <a class="btn-buzz" href="#" target="_blank"><img src="icon-buzz.png" alt="BUZZ Editora" style="height:20px;width:20px;object-fit:contain;"> BUZZ Editora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="depo-header">
+    <div class="section-tag" style="color:#6ee7f0;">Pacientes</div>
+    <h2 class="section-title light">Depoimentos</h2>
+    <p class="section-sub light">O que nossos pacientes dizem sobre o tratamento</p>
+  </div>
+  <div class="depo-grid">
+    <div class="depo-card">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">"Cheguei no consultório do Dr. Guido com uma crise de ansiedade. Logo senti confiança e conhecimento. O remédio e a psicoterapia – que também faço com ele – mudaram tudo. Estou em pleno tratamento, venci fobias e mudei minha qualidade de vida. Devo meu bem estar a ele. Sempre e sempre: obrigada por tanto, Doutor!"</p>
+      <div class="depo-author">
+        <strong>Anna Claudia Donner</strong>
+        <span>Paciente</span>
+      </div>
+    </div>
+    <div class="depo-card">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">"Tratar a ansiedade/depressão com o Dr. Guido é sinônimo de segurança, respeito e conhecimento. Não apenas prescreve remédios, mas sim analisa todo o conjunto físico, ambiental e social em torno do paciente para prescrição do melhor tratamento de forma personalizada. O teste farmacogenético possibilita uma margem de erro ainda menor para que o paciente não sofra com testes e trocas de medicamentos constantes."</p>
+      <div class="depo-author">
+        <strong>Diego Túlio</strong>
+        <span>Paciente</span>
+      </div>
+    </div>
+    <div class="depo-card">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">"Dr Guido é um profissional excepcional que atende seu paciente de coração, ama o que faz e faz com maestria. Trata não somente os sintomas, mas a pessoa. É médico da minha mãe e ele estabeleceu um laço de contato e estabeleceu um plano de tratamento para juntos alcançarmos a cura. Sensacional. Indico a todos. Obrigada!"</p>
+      <div class="depo-author">
+        <strong>Fabiola Maria Milis</strong>
+        <span>Paciente</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="contato">
+  <div class="section-tag" style="color:#6ee7f0;text-align:center;">Consulta Presencial ou Online</div>
+  <h2 class="contato-title">Você escolhe,<br>o cuidado é o mesmo.</h2>
+  <p class="contato-sub">Dê o primeiro passo para cuidar da sua saúde mental com acompanhamento especializado e baseado em ciência.</p>
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="icon">📞</div>
+      <div class="clbl">Telefone</div>
+      <div class="cval">(48) 3224-3887</div>
+    </div>
+    <div class="contact-card">
+      <div class="icon">💬</div>
+      <div class="clbl">WhatsApp</div>
+      <div class="cval">(48) 99851-0053</div>
+    </div>
+    <div class="contact-card">
+      <div class="icon">✉️</div>
+      <div class="clbl">E-mail</div>
+      <div class="cval">contato@guidoboabaid.com.br</div>
+    </div>
+    <div class="contact-card">
+      <div class="icon">📍</div>
+      <div class="clbl">Localização</div>
+      <div class="cval">Florianópolis, SC / Remoto</div>
+    </div>
+  </div>
+  <a class="cta-big" href="https://wa.me/5548998510053" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Agende sua consulta
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo.png" alt="Dr. Guido Boabaid" style="height:42px;width:auto;display:block;margin-bottom:14px;">
+      <p>Mais de 30 anos como psiquiatra e psicoterapeuta.<br>Médico do Corpo Clínico do Hospital Israelita Albert Einstein.</p>
+      <div class="footer-crm">CRM/SC 5432 &nbsp;//&nbsp; CRM/SP 196454</div>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#telemedicina">Telemedicina</a></li>
+        <li><a href="#areas">Áreas de Atuação</a></li>
+        <li><a href="#livro">Livro</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Entre em Contato</h4>
+      <ul>
+        <li><a href="tel:+554832243887">📞 (48) 3224-3887</a></li>
+        <li><a href="https://wa.me/5548998510053">💬 (48) 99851-0053</a></li>
+        <li><a href="mailto:contato@guidoboabaid.com.br">✉️ contato@guidoboabaid.com.br</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    Copyright © 2026 — Penguin Marketing
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.area-card, .depo-card, .contact-card, .cred-item, .press-badge, .stat-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
